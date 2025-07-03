@@ -1,0 +1,8 @@
+{
+  "name": "KID's TALK: AI English Tutor",
+  "description": "An interactive English learning application for children, featuring an AI tutor named QMEI. Kids can practice conversational English through various modes like dialogue, sentence generation, and speech practice across different topics.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "prompt": ""
+}
