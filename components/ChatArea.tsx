@@ -20,8 +20,8 @@ const TypingIndicator = () => (
             👩‍🏫
         </div>
         <div className="p-4 rounded-2xl rounded-br-lg bg-light-blue dark:bg-gray-700 shadow-sm flex items-center gap-2">
-            <div className="w-2 h-2 bg-text-light dark:bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-            <div className="w-2 h-2 bg-text-light dark:bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+            <div className="w-2 h-2 bg-text-light dark:bg-gray-400 rounded-full animate-bounce [animation-delay:-0.1s]"></div>
+            <div className="w-2 h-2 bg-text-light dark:bg-gray-400 rounded-full animate-bounce [animation-delay:-0.05s]"></div>
             <div className="w-2 h-2 bg-text-light dark:bg-gray-400 rounded-full animate-bounce"></div>
         </div>
     </div>

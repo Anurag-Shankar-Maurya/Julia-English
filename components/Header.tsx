@@ -15,7 +15,11 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, theme, onToggleTheme }
           <button onClick={onToggleSidebar} className="lg:hidden text-text-dark dark:text-gray-300">
             <MenuIcon className="w-6 h-6" />
           </button>
-          <img src="images\Julia English Logo Black.png" alt="Julia English Logo" className="h-10 w-auto rounded-md" />
+          <img 
+            src={theme === 'light' ? "images/Julia English Logo Black.png" : "images/Julia English Logo White.png"} 
+            alt="Julia English Logo" 
+            className="h-10 w-auto rounded-md"
+          />
           <div className="flex flex-col">
             <h1 className="text-2xl font-extrabold bg-gradient-to-r from-primary-blue to-primary-green text-transparent bg-clip-text leading-tight">
               KID's TALK
