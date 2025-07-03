@@ -1,5 +1,7 @@
 import React from 'react';
 import { BackArrowIcon, MenuIcon, SunIcon, MoonIcon } from './Icons';
+import blackLogo from '/images/Julia-English-Logo-Black.png'
+import whiteLogo from '/images/Julia-English-Logo-White.png'
 
 interface HeaderProps {
     onToggleSidebar: () => void;
@@ -16,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, theme, onToggleTheme }
             <MenuIcon className="w-6 h-6" />
           </button>
           <img 
-            src={theme === 'light' ? "images/Julia English Logo Black.png" : "images/Julia English Logo White.png"} 
+            src={theme === 'light' ? blackLogo : whiteLogo} 
             alt="Julia English Logo" 
             className="h-10 w-auto rounded-md"
           />
