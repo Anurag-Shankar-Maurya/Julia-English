@@ -126,7 +126,7 @@ Remember: Be curious, be genuine, and help children feel excited about learning 
 
   try {
     const response: GenerateContentResponse = await ai.models.generateContent({
-      model: "gemini-2.0-flash-lite",
+      model: "learnlm-2.0-flash-experimental",
       contents: modelHistory,
       config: {
         systemInstruction: systemInstruction,
