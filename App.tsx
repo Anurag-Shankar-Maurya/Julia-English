@@ -52,7 +52,8 @@ const App: React.FC = () => {
       id: `initial-${topic}-${Date.now()}`,
       sender: 'ai',
       text: topicDetails.welcome,
-      translation: topicDetails.welcomeTranslation,
+      translationTraditional: topicDetails.welcomeTranslation,
+      translationSimplified: topicDetails.welcomeTranslation,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
@@ -60,7 +61,8 @@ const App: React.FC = () => {
         id: `mode-welcome-${mode}-${Date.now()}`,
         sender: 'ai',
         text: `Great! Let's start with ${modeDetails?.label ?? mode} practice.`,
-        translation: `太棒了！讓我們開始 ${modeDetails?.label ?? mode} 練習吧。`,
+        translationTraditional: `太棒了！讓我們開始${modeDetails?.label ?? mode}練習吧。`,
+        translationSimplified: `太棒了！让我们开始${modeDetails?.label ?? mode}练习吧。`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
@@ -79,8 +81,9 @@ const App: React.FC = () => {
       id: `topic-change-${topic}-${Date.now()}`,
       sender: 'ai',
       text: `Okay, let's talk about ${topicDetails.name} now!`,
-      translation: `好的，我們現在來聊聊${topicDetails.name}吧！`,
-      timestamp: new  Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      translationTraditional: `好的，我們現在來聊聊${topicDetails.name}吧！`,
+      translationSimplified: `好的，我们现在来聊聊${topicDetails.name}吧！`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
     setMessages(prev => [...prev, topicChangeMessage]);
@@ -99,7 +102,8 @@ const App: React.FC = () => {
       id: `mode-change-${mode}-${Date.now()}`,
       sender: 'ai',
       text: `Great! We've switched to ${modeDetails?.label ?? mode}. Let's continue our chat about ${TOPIC_CONFIG[currentTopic].name}!`,
-      translation: `太棒了！我們已切換到${modeDetails?.label ?? mode}。讓我們繼續聊聊${TOPIC_CONFIG[currentTopic].name}吧！`,
+      translationTraditional: `太棒了！我們已經切換到${modeDetails?.label ?? mode}。讓我們繼續聊聊${TOPIC_CONFIG[currentTopic].name}吧！`,
+      translationSimplified: `太棒了！我们已经切换到${modeDetails?.label ?? mode}。让我们继续聊聊${TOPIC_CONFIG[currentTopic].name}吧！`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
     setMessages(prev => [...prev, modeChangeMessage]);
@@ -128,7 +132,8 @@ const App: React.FC = () => {
       id: `ai-${Date.now()}`,
       sender: 'ai',
       text: aiResult.english,
-      translation: aiResult.chinese,
+      translationTraditional: aiResult.chineseTraditional,
+      translationSimplified: aiResult.chineseSimplified,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 

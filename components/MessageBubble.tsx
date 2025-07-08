@@ -28,9 +28,14 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
         }}
       >
         <p className="text-base text-text-dark dark:text-gray-200 leading-relaxed mb-2" style={{ whiteSpace: 'pre-wrap' }}>{message.text}</p>
-        {message.translation && (
+        {message.translationTraditional && (
           <p className="text-sm text-text-medium dark:text-gray-400 italic border-t border-black/10 dark:border-white/10 pt-2 mt-2">
-            {message.translation}
+            {message.translationTraditional}
+          </p>
+        )}
+        {message.translationSimplified && (
+          <p className="text-sm text-text-medium dark:text-gray-400 italic border-t border-black/10 dark:border-white/10 pt-2 mt-2">
+            {message.translationSimplified}
           </p>
         )}
         <p className="text-xs text-text-light dark:text-gray-500 text-right mt-1">{message.timestamp}</p>

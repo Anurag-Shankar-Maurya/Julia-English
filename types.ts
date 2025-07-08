@@ -7,14 +7,16 @@ export interface ChatMessage {
   id: string;
   sender: Sender;
   text: string;
-  translation?: string;
+  translationTraditional?: string;
+  translationSimplified?: string;
   timestamp: string;
 }
 
 export interface Topic {
   name: string;
   welcome: string;
-  welcomeTranslation: string;
+  welcomeTranslationTraditional: string;
+  welcomeTranslationSimplified: string;
   suggestions: string[];
 }
 

@@ -4,7 +4,8 @@ import { LearningMode, Topic, ChatMessage } from '../types';
 
 interface AiResponse {
   english: string;
-  chinese: string;
+  chineseTraditional: string;
+  chineseSimplified: string;
   suggestions: string[];
 }
 
@@ -17,7 +18,8 @@ export const generateAiResponse = async (
     console.error("API_KEY environment variable not set.");
     return {
       english: "I'm having trouble connecting. Please check the setup.",
-      chinese: "我無法連接。請檢查設定。",
+      chineseTraditional: "我無法連接。請檢查設定。",
+      chineseSimplified: "我无法连接。请检查设置。",
       suggestions: ["Help", "What's wrong?", "Let's try again."],
     };
   }
@@ -82,7 +84,8 @@ RESPONSE FORMAT:
 You MUST respond in valid JSON format following this exact schema:
 {
   "english": "your response in English (under 50 words)",
-  "chinese": "your response translated to Chinese",
+  "chineseTraditional": "your response translated to Chinese (traditional)",
+  "chineseSimplified": "your response translated to Chinese (simplified)",
   "suggestions": ["suggestion 1", "suggestion 2", "suggestion 3"]
 }
 
@@ -126,7 +129,7 @@ Remember: Be curious, be genuine, and help children feel excited about learning 
 
   try {
     const response: GenerateContentResponse = await ai.models.generateContent({
-      model: "learnlm-2.0-flash-experimental",
+      model: "gemini-2.0-flash-lite",
       contents: modelHistory,
       config: {
         systemInstruction: systemInstruction,
@@ -148,7 +151,8 @@ Remember: Be curious, be genuine, and help children feel excited about learning 
 
     if (
       !parsedData.english ||
-      !parsedData.chinese ||
+      !parsedData.chineseTraditional ||
+      !parsedData.chineseSimplified ||
       !Array.isArray(parsedData.suggestions) ||
       parsedData.suggestions.length !== 3
     ) {
@@ -161,7 +165,8 @@ Remember: Be curious, be genuine, and help children feel excited about learning 
     console.error("Gemini API call failed:", error);
     return {
       english: "Oops! I seem to be having a little trouble thinking. Could you please say that again?",
-      chinese: "哎呀！我好像有點思考困難。可以請你再說一次嗎？",
+      chineseTraditional: "哎呀！我好像有點思考困難。可以請你再說一次嗎？",
+      chineseSimplified: "哎呀！我好像有点思考困难。可以请你再说一次吗？",
       suggestions: ["Let's try again.", "What are we talking about?", "Tell me a fun fact!"],
     };
   }
