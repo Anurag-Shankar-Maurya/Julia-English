@@ -2,13 +2,16 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import ChatArea from './components/ChatArea';
+import LandingPage from './components/LandingPage';
 import { ChatMessage, LearningMode, TopicKey } from './types';
-import { TOPIC_CONFIG } from './constants';
+import { TOPIC_CONFIG, LEARNING_MODES } from './constants';
 import { generateAiResponse } from './services/geminiService';
 
 type Theme = 'light' | 'dark';
+type View = 'landing' | 'chat';
 
 const App: React.FC = () => {
+  const [view, setView] = useState<View>('landing');
   const [currentTopic, setCurrentTopic] = useState<TopicKey>('family');
   const [currentMode, setCurrentMode] = useState<LearningMode>('dialogue');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -41,36 +44,62 @@ const App: React.FC = () => {
     });
   };
 
-  const initializeChat = useCallback(() => {
-    const topicDetails = TOPIC_CONFIG[currentTopic];
+  const initializeChat = useCallback((mode: LearningMode, topic: TopicKey) => {
+    const topicDetails = TOPIC_CONFIG[topic];
+    const modeDetails = LEARNING_MODES.find(m => m.key === mode);
+
     const initialMessage: ChatMessage = {
-      id: `initial-${currentTopic}-${Date.now()}`,
+      id: `initial-${topic}-${Date.now()}`,
       sender: 'ai',
       text: topicDetails.welcome,
       translation: topicDetails.welcomeTranslation,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
-    setMessages([initialMessage]);
-    setSuggestions(topicDetails.suggestions);
-    setChatHistoryForApi([initialMessage]);
-  }, [currentTopic]);
 
-  useEffect(() => {
-    initializeChat();
-  }, [currentTopic, initializeChat]);
+    const modeWelcomeMessage: ChatMessage = {
+        id: `mode-welcome-${mode}-${Date.now()}`,
+        sender: 'ai',
+        text: `Great! Let's start with ${modeDetails?.label ?? mode} practice.`,
+        translation: `太棒了！讓我們開始 ${modeDetails?.label ?? mode} 練習吧。`,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    setMessages([initialMessage, modeWelcomeMessage]);
+    setSuggestions(topicDetails.suggestions);
+    setChatHistoryForApi([initialMessage, modeWelcomeMessage]);
+    setCurrentMode(mode);
+    setCurrentTopic(topic);
+  }, []);
 
   const handleTopicChange = (topic: TopicKey) => {
+    if (topic === currentTopic) return;
+    
+    const topicDetails = TOPIC_CONFIG[topic];
+    const topicChangeMessage: ChatMessage = {
+      id: `topic-change-${topic}-${Date.now()}`,
+      sender: 'ai',
+      text: `Okay, let's talk about ${topicDetails.name} now!`,
+      translation: `好的，我們現在來聊聊${topicDetails.name}吧！`,
+      timestamp: new  Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    setMessages(prev => [...prev, topicChangeMessage]);
+    setSuggestions(topicDetails.suggestions);
+    setChatHistoryForApi(prev => [...prev, topicChangeMessage]);
     setCurrentTopic(topic);
     setIsSidebarOpen(false);
   };
 
   const handleModeChange = (mode: LearningMode) => {
+    if (mode === currentMode) return;
+    
     setCurrentMode(mode);
+    const modeDetails = LEARNING_MODES.find(m => m.key === mode);
     const modeChangeMessage: ChatMessage = {
       id: `mode-change-${mode}-${Date.now()}`,
       sender: 'ai',
-      text: `Great! We've switched to ${mode} mode. Let's continue our chat about ${TOPIC_CONFIG[currentTopic].name}!`,
-      translation: `太棒了！我們已切換到${mode}模式。讓我們繼續聊聊${TOPIC_CONFIG[currentTopic].name}吧！`,
+      text: `Great! We've switched to ${modeDetails?.label ?? mode}. Let's continue our chat about ${TOPIC_CONFIG[currentTopic].name}!`,
+      translation: `太棒了！我們已切換到${modeDetails?.label ?? mode}。讓我們繼續聊聊${TOPIC_CONFIG[currentTopic].name}吧！`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
     setMessages(prev => [...prev, modeChangeMessage]);
@@ -88,6 +117,7 @@ const App: React.FC = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    setSuggestions([]);
     setIsLoading(true);
     
     const historyForApi = [...chatHistoryForApi, userMessage];
@@ -108,10 +138,24 @@ const App: React.FC = () => {
     setIsLoading(false);
 
   }, [chatHistoryForApi, currentMode, currentTopic]);
+  
+  const handleStartChat = (mode: LearningMode) => {
+      const savedTopic = localStorage.getItem('selectedTopic') as TopicKey | null;
+      initializeChat(mode, savedTopic || 'family');
+      setView('chat');
+  };
+  
+  const handleGoHome = () => {
+      setView('landing');
+  }
+
+  if (view === 'landing') {
+      return <LandingPage onStartChat={handleStartChat} theme={theme} onToggleTheme={toggleTheme} />;
+  }
 
   return (
     <div className="h-screen w-screen bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 dark:from-gray-800 dark:via-gray-900 dark:to-black font-sans flex flex-col overflow-hidden">
-      <Header onToggleSidebar={() => setIsSidebarOpen(o => !o)} theme={theme} onToggleTheme={toggleTheme} />
+      <Header onToggleSidebar={() => setIsSidebarOpen(o => !o)} theme={theme} onToggleTheme={toggleTheme} onGoHome={handleGoHome} />
       <div className="flex-1 p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6 overflow-hidden">
         {/* Desktop Sidebar */}
         <div className="hidden lg:block bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-3xl shadow-medium overflow-y-auto p-6 custom-scrollbar">
