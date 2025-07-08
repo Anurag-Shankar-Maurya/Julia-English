@@ -52,8 +52,8 @@ const App: React.FC = () => {
       id: `initial-${topic}-${Date.now()}`,
       sender: 'ai',
       text: topicDetails.welcome,
-      translationTraditional: topicDetails.welcomeTranslation,
-      translationSimplified: topicDetails.welcomeTranslation,
+      translationTraditional: topicDetails.welcomeTranslationTraditional,
+      translationSimplified: topicDetails.welcomeTranslationSimplified,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 

@@ -5,8 +5,8 @@ export const TOPIC_CONFIG: Record<TopicKey, Topic> = {
   family: {
     name: "我的家庭",
     welcome: "Hi there! I'm QMEI, your English teacher! Let's talk about your family today. Can you tell me about your family members?",
-    welcomeTranslationTraditional: "",
-    welcomeTranslationSimplified: "",
+    welcomeTranslationTraditional: "嗨！我叫QMEI，是你的英語老師！今天我們來談談你的家庭。你能告訴我你的家庭成員嗎？",
+    welcomeTranslationSimplified: "你好！我是QMEI，你的英语老师！今天我们来谈谈你的家庭。你能告诉我你的家人吗？",
     suggestions: [
       "I have a mom, dad, and sister",
       "My family is very loving",
